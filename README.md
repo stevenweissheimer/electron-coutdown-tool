@@ -8,7 +8,7 @@
         <img src="https://img.shields.io/badge/Version-0.1.0-blue.svg?style=flat-square" alt="MobKommCommands Version">
     </a>
     <a href="">
-        <img src="https://img.shields.io/badge/License-GPLv2-red.svg?style=flat-square" alt="MobKommCommands License">
+        <img src="https://img.shields.io/badge/License-MIT-red.svg?style=flat-square" alt="MobKommCommands License">
     </a>
 </p>
 
