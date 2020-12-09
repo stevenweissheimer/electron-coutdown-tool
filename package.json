@@ -17,8 +17,8 @@
     "start-electron-dev": "electron .",
     "build:exe": "electron-packager ./ Countdown --platform=win32 --arch=ia32 --overwrite",
 		"pack:osx": "electron-packager . Countdown-Tool --out=dist/osx --platform=darwin --arch=x64 --icon=assets/build/osx/icon.icns && npm run codesign --overwrite",
-		"pack:win32": "electron-packager . Countdown-Tool --out=dist/win --platform=win32 --arch=ia32 --overwrite",
-		"pack:win64": "electron-packager . Countdown-Tool --out=dist/win --platform=win32 --arch=x64 --app-version=0.36.2 app-version=1.0 --icon=images/icons/win/icon.ico --overwrite",
+		"pack:win32": "electron-packager . Countdown-Tool --out=dist/win --platform=win32 --arch=ia32 --icon=images/icons/win/winicon.ico --overwrite",
+		"pack:win64": "electron-packager . Countdown-Tool --out=dist/win --platform=win32 --arch=x64 --app-version=0.36.2 app-version=1.0 --icon=images/icons/win/winicon.png --overwrite",
 		"build": "npm run pack:win64"
   },
   "eslintConfig": {
