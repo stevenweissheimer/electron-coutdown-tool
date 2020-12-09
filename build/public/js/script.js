@@ -16,6 +16,7 @@ var COLOR_CODES = {
 };
 
 var countdown = 0;
+var beepInterval = 0;
 let state = "play";
 
 var TIME_LIMIT = countdown;
@@ -51,20 +52,23 @@ document.getElementById("app").innerHTML = `
 </div>
 `;
 
+function beep() {
+  let i = 0;
+  var audio = document.getElementById('timerAudio'); 
+  audio.play();
+  beepInterval = setInterval(function(){
+    i++;
+    audio.play();
+    if (i === 5) {
+      clearInterval(beepInterval);
+    }
+  }, 1000);
+}
 
 
 function onTimesUp() {
   clearInterval(timerInterval);
-  var audio = document.getElementById('timerAudio'); 
-  let i = 0;
-  audio.play();
-  beepinterval = setInterval(function(){
-    i++;
-    audio.play();
-    if (i === 2) {
-      clearInterval(beepinterval);
-    }
-  }, 800);
+  beep();
 }
 
 function startTimer() {
@@ -151,7 +155,8 @@ function toogle() {
 }
 
 function start() {
-    state = "play"
+    clearInterval(beepInterval);
+    state = "play";
     document.getElementById("toogle").innerHTML = "Pause";
     setRestartPathColor();
     clearInterval(timerInterval);
@@ -179,6 +184,7 @@ function start() {
 }
 
 function stop () {
+  clearInterval(beepInterval);
     state = "pause"
     document.getElementById("toogle").innerHTML = "Play";   
     clearInterval(timerInterval);
