@@ -47,3 +47,8 @@ Builds the Apple OSx app-package for post production to the `dist` folder.\
 
 You can use the core of the app in browser too. Use for these the files in the `builds` folder.\
 
+Based on the tutorial from Mateusz Rybczonek (css-tricks.com) and a codepen of Geoff Graham.
+https://css-tricks.com/how-to-create-an-animated-countdown-timer-with-html-css-and-javascript/
+https://codepen.io/geoffgraham/pen/yLywVbW
+
+
