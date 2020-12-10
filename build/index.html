@@ -12,31 +12,87 @@
 
     <body>
         <div id="myNav" class="overlay">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="javascript:void(0)" class="closebtn closemenu" onclick="closeNav()">&times;</a>
             <div class="overlay-content">
                 <div id="settingsmenu" class="settingsmenu">
                     <h2>Settings</h2>
                     <div class="settings">
-                        <label class="toggle-control">
-                            <input onchange="func_autorestart()" id="autorestart" type="checkbox">
-                            <span class="control"></span>
-                            <p class="switchtitle">Auto Restart</p>
-                        </label>
-                        <label class="toggle-control">
-                            <input onchange="func_sound()" id="sound" type="checkbox" checked>
-                            <span class="control"></span>
-                            <p class="switchtitle">Töne abspielen</p>
-                        </label>
-                        <label class="toggle-control">
-                            <input onchange="func_randomtimer()" id="randomtimer" type="checkbox">
-                            <span class="control"></span>
-                            <p class="switchtitle">Zufallstimer</p>
-                        </label>
+						<div class="toogles">
+							<label class="toggle-control">
+								<input onchange="func_sound()" id="sound" type="checkbox" checked>
+								<span class="control"></span>
+								<p class="switchtitle">Sounds</p>
+							</label>
+							<label class="toggle-control">
+								<input onchange="func_autorestart()" id="autorestart" type="checkbox">
+								<span class="control"></span>
+								<p class="switchtitle">Auto Restart</p>
+							</label>
+							<label class="toggle-control">
+								<input onchange="func_hidetimer()" id="hidetimer" type="checkbox">
+								<span class="control"></span>
+								<p class="switchtitle">Hide Timer</p>
+							</label>
+						</div>
+						<h3>Random Timer</h3>
+						<label class="toggle-control">
+							<input onchange="func_randomtimer()" id="randomtimer" type="checkbox">
+							<span class="control"></span>
+							<p class="switchtitle">Random Timer</p>
+						</label>						
+						<p>min:</p>
+							<div class="input-group inline-group">
+								<div class="input-group-prepend buttonsminmax">
+									<button onclick ="randomint_min('-')" class="btn btn-outline-secondary btn-minus">
+										<img src="public/images/minus.svg" alt="-"> 
+									</button>
+								</div>
+									<input class="form-control" onchange="randomint_min()" min="5" id="min" name="quantity" placeholder="Seconds" type="number">
+								<div class="input-group-append buttonsminmax">
+									<button onclick ="randomint_min('+')" class="btn btn-outline-secondary btn-plus">
+									<img src="public/images/plus.svg" alt="+"> 
+									</button>
+								</div>
+							</div>
+						<p>max:</p>
+							<div class="input-group inline-group">
+								<div class="input-group-prepend buttonsminmax">
+									<button onclick ="randomint_max('-')" class="btn btn-outline-secondary btn-minus">
+										<img src="public/images/minus.svg" alt="-"> 
+									</button>
+								</div>
+								<input class="form-control" onchange="randomint_max()" min="6" id="max" name="quantity" placeholder="Seconds" type="number">
+								<div class="input-group-append buttonsminmax">
+									<button onclick ="randomint_max('+')" class="btn btn-outline-secondary btn-plus">
+									<img src="public/images/plus.svg" alt="+"> 
+									</button>
+								</div>
+							</div>
+							<h3>Pomodoro Timer</h3>
+							<label class="toggle-control">
+								<input onchange="func_pomodoro()" id="toogle-pomodoro" type="checkbox">
+								<span class="control"></span>
+								<p class="switchtitle">Pomodoro Timer</p>
+							</label>
+							<p>Breaks:</p>
+							<div class="input-group inline-group">
+								<div class="input-group-prepend buttonsminmax">
+									<button onclick ="pomodorobreaks_int('-')" class="btn btn-outline-secondary btn-minus">
+										<img src="public/images/minus.svg" alt="-"> 
+									</button>
+								</div>
+									<input class="form-control" onchange="pomodorobreaks_int()" min="1" id="breaks" name="quantity" placeholder="Seconds" type="number">
+								<div class="input-group-append buttonsminmax">
+									<button onclick ="pomodorobreaks_int('+')" class="btn btn-outline-secondary btn-plus">
+									<img src="public/images/plus.svg" alt="+"> 
+									</button>
+								</div>
+							</div>
                     </div>
                 </div>
             </div>
         </div>          
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+        <span class="openmenu" onclick="openNav()">&#9776;</span>
         
         <audio id="timerAudio" > 
             <source src="./public/audio/beep.mp3" 
@@ -48,13 +104,13 @@
             <div>
                 <div class="input-group inline-group">
                     <div class="input-group-prepend">
-                    <button onclick ="newtime()" class="btn btn-outline-secondary btn-minus">
+                    <button onclick ="newtime('-')" class="btn btn-outline-secondary btn-minus">
                         <img src="public/images/minus.svg" alt="-"> 
                     </button>
                     </div>
-                    <input class="form-control quantity" onchange="newtime()" min="5" id="newtimer" name="quantity" placeholder="Sekunden" type="number">
+                    <input class="form-control quantity" onchange="newtime()" min="5" id="newtimer" name="quantity" placeholder="Seconds" type="number">
                     <div class="input-group-append">
-                    <button onclick ="newtime()" class="btn btn-outline-secondary btn-plus">
+                    <button onclick ="newtime('+')" class="btn btn-outline-secondary btn-plus">
                         <img src="public/images/plus.svg" alt="+"> 
                     </button>
                     </div>

@@ -20,8 +20,12 @@ var beepInterval = 0;
 var sound = true;
 var autorestart = false;
 var randomtimer = false;
-var randommin = 10;
-var randommax = 20;
+var hidetimer = false;
+var pomodorotimer = false;
+var pomodorobreaktime = 0;
+var pomodorosession = 1;
+var randommin = 5;
+var randommax = 6;
 let state = "play";
 
 var TIME_LIMIT = countdown;
@@ -51,11 +55,36 @@ document.getElementById("app").innerHTML = `
       ></path>
     </g>
   </svg>
+  <span id="base-session-label" class="base-session__label">Session 0</span>
   <span id="base-timer-label" class="base-timer__label">${formatTime(
     timeLeft
   )}</span>
 </div>
 `;
+
+// init: dont show Session
+document.getElementById("base-session-label").classList.add('base-session__label__display');
+
+
+function func_pomodoro() {
+	pomodorotimer = document.getElementById('toogle-pomodoro').checked; 
+	if (pomodorotimer == false) {
+		document.getElementById("base-session-label").classList.add('base-session__label__display');
+		} else {
+		document.getElementById("base-session-label").classList.remove('base-session__label__display');
+	}
+}
+
+function pomodorobreaks_int (button) {
+	if (button == "+") {
+		pomodorobreaktime = parseInt(document.getElementById('breaks').value) + 1;
+	} else if (button == "-") {
+		pomodorobreaktime = parseInt(document.getElementById('breaks').value) - 1;
+	} else {
+		pomodorobreaktime = parseInt(document.getElementById('breaks').value);
+	}
+	console.log (pomodorobreaktime);	
+}
 
 function beep() {
     if (sound == true) {
@@ -65,7 +94,8 @@ function beep() {
     beepInterval = setInterval(function(){
       i++;
       audio.play();
-      if (i === 5) {
+	  console.log ("beep")
+      if (i >= 5) {
         clearInterval(beepInterval);
       }
     }, 1000);
@@ -78,7 +108,9 @@ function func_autorestart() {
 
 function onTimesUp() {
   clearInterval(timerInterval);
-  beep();
+  if (hidetimer == false) {
+	  beep();
+  }  
   if (autorestart == true) {
     stop();
     start();
@@ -94,13 +126,26 @@ function func_randomtimer() {
   randomtimer = document.getElementById('randomtimer').checked; 
 }
 
-function onTimesUp() {
-  clearInterval(timerInterval);
-  beep();
-  if (autorestart == true) {
-    stop();
-    start();
-  }
+function randomint_min(button) {
+	if (button == "+") {
+		randommin = parseInt(document.getElementById('min').value) + 1;
+	} else if (button == "-") {
+		randommin = parseInt(document.getElementById('min').value) - 1;
+	} else {
+		randommin = parseInt(document.getElementById('min').value);
+	}
+	console.log (randommin);
+}
+
+function randomint_max(button) {
+	if (button == "+") {
+		randommax = parseInt(document.getElementById('max').value) + 1;
+	} else if (button == "-") {
+		randommax = parseInt(document.getElementById('max').value) - 1;
+	} else {
+		randommax = parseInt(document.getElementById('max').value);
+	}
+	console.log (randommax);
 }
 
 function startTimer() {
@@ -112,6 +157,7 @@ function startTimer() {
           starter();
         }
     }
+	
   function starter() {
     timerInterval = setInterval(() => {
       timePassed = timePassed += 1;
@@ -124,12 +170,19 @@ function startTimer() {
       if (timeLeft === 0) {
       onTimesUp();
       }
+	  if (timeLeft == 5) {
+		if (hidetimer == true) {
+			beep();
+		}		  
+	  }
+	  
   }, 1000);
   }
  }
 
  function randinteger () {
   countdown = Math.floor(Math.random() * (randommax - randommin + 1)) + randommin;
+  console.log(countdown);
   }
 
 function formatTime(time) {
@@ -176,6 +229,14 @@ function setCircleDasharray() {
     .setAttribute("stroke-dasharray", circleDasharray);
 }
 
+function func_hidetimer() {
+	hidetimer = document.getElementById('hidetimer').checked;
+	if (hidetimer == true) {
+	document.getElementById("base-timer-label").classList.add('blure');
+	} else {
+	document.getElementById("base-timer-label").classList.remove('blure');
+	}
+}
 
 function pause() {
     clearInterval(timerInterval);
@@ -199,37 +260,48 @@ function toogle() {
 }
 
 function start() {
-    clearInterval(beepInterval);
-    state = "play";
-    document.getElementById("toogle").innerHTML = "Pause";
-    setRestartPathColor();
-    clearInterval(timerInterval);
-    TIME_LIMIT = countdown;
-    WARNING_THRESHOLD = countdown * 0.5;
-    ALERT_THRESHOLD = countdown * 0.25;
-    COLOR_CODES = {
-        info: {
-          color: "green"
-        },
-        warning: {
-          color: "orange",
-          threshold: WARNING_THRESHOLD
-        },
-        alert: {
-          color: "red",
-          threshold: ALERT_THRESHOLD
-        }
-      };      
-    timePassed = 0;
-    timeLeft = TIME_LIMIT;
-    timerInterval = null;
-    remainingPathColor = COLOR_CODES.info.color;
-    startTimer();
+	if (countdown > 0) {
+		clearInterval(beepInterval);
+		state = "play";
+		document.getElementById("toogle").innerHTML = "Pause";
+		setRestartPathColor();
+		clearInterval(timerInterval);
+		if (hidetimer == false) {
+			TIME_LIMIT = countdown;
+		} else {
+			TIME_LIMIT = 5;	
+		}
+		WARNING_THRESHOLD = countdown * 0.5;
+		ALERT_THRESHOLD = countdown * 0.25;
+		COLOR_CODES = {
+			info: {
+			  color: "green"
+			},
+			warning: {
+			  color: "orange",
+			  threshold: WARNING_THRESHOLD
+			},
+			alert: {
+			  color: "red",
+			  threshold: ALERT_THRESHOLD
+			}
+		  };      
+		timePassed = 0;
+		timeLeft = TIME_LIMIT;
+		timerInterval = null;
+		remainingPathColor = COLOR_CODES.info.color;
+		startTimer();
+		if (hidetimer == true) {
+			timePassed = timePassed - countdown + timeLeft;
+		}
+	}
 }
 
 function stoptaste () {
-  autorestart = false;
   stop ();
+  pomodorosession = 0;
+  document.getElementById("base-session-label").innerHTML = "Session " + pomodorosession;
+  
 }
 
 function starttaste () {
@@ -263,8 +335,14 @@ function setRestartPathColor() {
         .classList.add(info.color);
 }
 
-function newtime() {
-    countdown = parseInt(document.getElementById('newtimer').value)
+function newtime(button) {
+	if (button == "+") {
+		countdown = parseInt(document.getElementById('newtimer').value) + 1;
+	} else if (button == "-") {
+		countdown = parseInt(document.getElementById('newtimer').value) - 1;
+	} else {
+		countdown = parseInt(document.getElementById('newtimer').value)
+	}
     console.log(countdown);
     start();
 }
@@ -287,3 +365,14 @@ $('.btn-plus, .btn-minus').on('click', function(e) {
       input[0][isNegative ? 'stepDown' : 'stepUp']()
     }
   })
+  
+  
+  
+  
+  
+///// HIER WEITER MACHEN
+if (pomodorotimer == true) {
+	pomodorosession = pomodorosession + 1;
+	document.getElementById("base-session-label").innerHTML = "Session " + pomodorosession;
+	console.log("Test")
+}	
