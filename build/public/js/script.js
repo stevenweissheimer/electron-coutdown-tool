@@ -1,3 +1,5 @@
+//!INIT 
+// Initial Give the ring a color
 const FULL_DASH_ARRAY = 283;
 
 var COLOR_CODES = {
@@ -6,11 +8,11 @@ var COLOR_CODES = {
   },
   warning: {
     color: "orange",
-    threshold: WARNING_THRESHOLD
+    threshold: int_countdown_time_threshold_warning
   },
   alert: {
     color: "red",
-    threshold: ALERT_THRESHOLD
+    threshold: int_countdown_time_threshold_alert
   }
 };
 
@@ -18,22 +20,24 @@ var COLOR_CODES = {
 
 //! INIT VARIABLES
 var countdown = 0;
-var beepInterval = 0;
-var pomodorobreaktime = 0;
-var pomodorosession = 1;
-var randommin = 5;
-var randommax = 6;
+var int_pomodoro_break_time = 0;
+var int_pomodoro_session = 1;
+var int_countdown_random_min = 5;
+var int_countdown_random_max = 6;
 
-var timePassed = 0;
-var WARNING_THRESHOLD = 0;
-var ALERT_THRESHOLD = 0;
-var TIME_LIMIT = countdown;
+var int_countdown_time_passed = 0;
+var int_countdown_time_threshold_warning = 0;
+var int_countdown_time_threshold_alert = 0;
+var int_countdown_time_limit = countdown;
 
 var state = "play";
 
-let timeLeft = TIME_LIMIT;
+let timeLeft = int_countdown_time_limit;
 let timerInterval = null;
 let remainingPathColor = COLOR_CODES.info.color;
+
+// Function init Variables
+var beepInterval = 0;
 
 // Functionstates
 var sound = true;
@@ -41,6 +45,7 @@ var autorestart = false;
 var randomtimer = false;
 var hidetimer = false;
 var pomodorotimer = false;
+
 
 //! INITS
 
@@ -70,6 +75,7 @@ document.getElementById("app").innerHTML = `
 </div>
 `;
 
+
 // Dont show on init Session Label
 document.getElementById("base-session-label").classList.add('base-session__label__display');
 
@@ -77,45 +83,55 @@ document.getElementById("base-session-label").classList.add('base-session__label
 
 // Startbutton
 function button_start() {
+  console.log ("Input Button Start pressed")
   start();
 }
 
 // Stopbutton
 function button_stop() {
+  console.log ("Input Button Stop pressed")
   stop();
   if (timeLeft == 0) {
-    pomodorosession = 1;
-    document.getElementById("base-session-label").innerHTML = "Session " + pomodorosession;
+    int_pomodoro_session = 1;
+    document.getElementById("base-session-label").innerHTML = "Session " + int_pomodoro_session;
   }
 }
 
 // Button Pause / Play
 function button_pauseplay() {
   if (state === "play") {
+    console.log ("Input Button Pause pressed")
     pause();
     state = "pause";
   } else if (state === "pause") {
+    console.log ("Input Button Play pressed")
     play();
     state = "play";
   }
 }
 
-// Toogles
+//! Toogles
 
 //Toogle Pomodoro
 function toogle_pomodoro() {
-  pomodorotimer = document.getElementById('toogle-pomodoro').checked;
+  pomodorotimer = document.getElementById('toogle_pomodoro').checked;
   classmanipulation_session_label ();
 }
 
 // Toogle Sound
 function toogle_sound() {
-  sound = document.getElementById('sound').checked;
+  sound = document.getElementById('toogle_sound').checked;
 }
 
 // Tootle Auto Restart
 function toogle_autorestart() {
-  autorestart = document.getElementById('autorestart').checked;
+  autorestart = document.getElementById('toogle_autorestart').checked;
+}
+
+// Toogle Hidetimer
+function toogle_hidetimer() {
+  hidetimer = document.getElementById('toogle_hidetimer').checked;
+  classmanipulation_timer_label ()
 }
 
 //! Inputs
@@ -123,38 +139,49 @@ function toogle_autorestart() {
 // Input Integer Countdown
 function input_int_countdown(button) {
   if (button == "+") {
-    countdown = parseInt(document.getElementById('newtimer').value) + 1;
+    countdown = parseInt(document.getElementById('input_int_countdown').value) + 1;
   } else if (button == "-") {
-    countdown = parseInt(document.getElementById('newtimer').value) - 1;
+    countdown = parseInt(document.getElementById('input_int_countdown').value) - 1;
   } else {
-    countdown = parseInt(document.getElementById('newtimer').value)
+    countdown = parseInt(document.getElementById('input_int_countdown').value)
   }
-  console.log(countdown);
-  start();
+  console.log('Fomularfeld input_int_countdown neuer Countdown mit: ' + countdown);
 }
 
 // Input Integer Countdown Random Max
 function input_int_countdown_random_max(button) {
   if (button == "+") {
-    randommax = parseInt(document.getElementById('max').value) + 1;
+    int_countdown_random_max = parseInt(document.getElementById('input_int_countdown_random_max').value) + 1;
   } else if (button == "-") {
-    randommax = parseInt(document.getElementById('max').value) - 1;
+    int_countdown_random_max = parseInt(document.getElementById('input_int_countdown_random_max').value) - 1;
   } else {
-    randommax = parseInt(document.getElementById('max').value);
+    int_countdown_random_max = parseInt(document.getElementById('input_int_countdown_random_max').value);
   }
-  console.log(randommax);
+  console.log('Fomularfeld input_int_countdown_random_max neuer Countdown Max mit: ' + int_countdown_random_max);
 }
 
 // Input Integer Countdown Random Min
 function input_int_countdown_random_min(button) {
   if (button == "+") {
-    randommin = parseInt(document.getElementById('min').value) + 1;
+    int_countdown_random_min = parseInt(document.getElementById('input_int_countdown_random_min').value) + 1;
   } else if (button == "-") {
-    randommin = parseInt(document.getElementById('min').value) - 1;
+    int_countdown_random_min = parseInt(document.getElementById('input_int_countdown_random_min').value) - 1;
   } else {
-    randommin = parseInt(document.getElementById('min').value);
+    int_countdown_random_min = parseInt(document.getElementById('input_int_countdown_random_min').value);
   }
-  console.log(randommin);
+  console.log('Fomularfeld input_int_countdown_random_max neuer Countdown Min mit: ' + int_countdown_random_min);
+}
+
+// Input Integer Pomodoro Breaks
+function input_int_pomodoro_breaktimes(button) {
+  if (button == "+") {
+    int_pomodoro_break_time = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value) + 1;
+  } else if (button == "-") {
+    int_pomodoro_break_time = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value) - 1;
+  } else {
+    int_pomodoro_break_time = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value);
+  }
+  console.log('Fomularfeld input_int_pomodoro_breaktimes neuer Break mit: ' + int_pomodoro_break_time);
 }
 
 
@@ -169,20 +196,16 @@ function classmanipulation_session_label () {
   }
 }
 
-//!  Startfunctions
-
-
-
-function pomodorobreaks_int(button) {
-  if (button == "+") {
-    pomodorobreaktime = parseInt(document.getElementById('breaks').value) + 1;
-  } else if (button == "-") {
-    pomodorobreaktime = parseInt(document.getElementById('breaks').value) - 1;
+// Manipulation Class Timer Label // Blue Label
+function classmanipulation_timer_label () {
+  if (hidetimer == true) {
+    document.getElementById("base-timer-label").classList.add('blure');
   } else {
-    pomodorobreaktime = parseInt(document.getElementById('breaks').value);
+    document.getElementById("base-timer-label").classList.remove('blure');
   }
-  console.log(pomodorobreaktime);
 }
+
+//!  Startfunctions
 
 function beep() {
   if (sound == true) {
@@ -210,8 +233,8 @@ function onTimesUp() {
     beep();
   }
   if (pomodorotimer == true) {
-    pomodorosession++;
-    document.getElementById("base-session-label").innerHTML = "Session " + pomodorosession;
+    int_pomodoro_session++;
+    document.getElementById("base-session-label").innerHTML = "Session " + int_pomodoro_session;
   };
 }
 
@@ -232,8 +255,8 @@ function startTimer() {
 
   function starter() {
     timerInterval = setInterval(() => {
-      timePassed = timePassed += 1;
-      timeLeft = TIME_LIMIT - timePassed;
+      int_countdown_time_passed = int_countdown_time_passed += 1;
+      timeLeft = int_countdown_time_limit - int_countdown_time_passed;
       document.getElementById("base-timer-label").innerHTML = formatTime(
         timeLeft
       );
@@ -253,7 +276,7 @@ function startTimer() {
 }
 
 function randinteger() {
-  countdown = Math.floor(Math.random() * (randommax - randommin + 1)) + randommin;
+  countdown = Math.floor(Math.random() * (int_countdown_random_max - int_countdown_random_min + 1)) + int_countdown_random_min;
   console.log(countdown);
 }
 
@@ -292,8 +315,8 @@ function setRemainingPathColor(timeLeft) {
 }
 
 function calculateTimeFraction() {
-  const rawTimeFraction = timeLeft / TIME_LIMIT;
-  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+  const rawTimeFraction = timeLeft / int_countdown_time_limit;
+  return rawTimeFraction - (1 / int_countdown_time_limit) * (1 - rawTimeFraction);
 }
 
 function setCircleDasharray() {
@@ -303,15 +326,6 @@ function setCircleDasharray() {
   document
     .getElementById("base-timer-path-remaining")
     .setAttribute("stroke-dasharray", circleDasharray);
-}
-
-function func_hidetimer() {
-  hidetimer = document.getElementById('hidetimer').checked;
-  if (hidetimer == true) {
-    document.getElementById("base-timer-label").classList.add('blure');
-  } else {
-    document.getElementById("base-timer-label").classList.remove('blure');
-  }
 }
 
 function pause() {
@@ -334,32 +348,32 @@ function start() {
     setRestartPathColor();
     clearInterval(timerInterval);
     if (hidetimer == false) {
-      TIME_LIMIT = countdown;
+      int_countdown_time_limit = countdown;
     } else {
-      TIME_LIMIT = 7;
+      int_countdown_time_limit = 7;
     }
-    WARNING_THRESHOLD = countdown * 0.5;
-    ALERT_THRESHOLD = countdown * 0.25;
+    int_countdown_time_threshold_warning = countdown * 0.5;
+    int_countdown_time_threshold_alert = countdown * 0.25;
     COLOR_CODES = {
       info: {
         color: "green"
       },
       warning: {
         color: "orange",
-        threshold: WARNING_THRESHOLD
+        threshold: int_countdown_time_threshold_warning
       },
       alert: {
         color: "red",
-        threshold: ALERT_THRESHOLD
+        threshold: int_countdown_time_threshold_alert
       }
     };
-    timePassed = 0;
-    timeLeft = TIME_LIMIT;
+    int_countdown_time_passed = 0;
+    timeLeft = int_countdown_time_limit;
     timerInterval = null;
     remainingPathColor = COLOR_CODES.info.color;
     startTimer();
     if (hidetimer == true) {
-      timePassed = timePassed - countdown + timeLeft;
+      int_countdown_time_passed = int_countdown_time_passed - countdown + timeLeft;
     }
   }
 }
@@ -370,9 +384,9 @@ function stop() {
   document.getElementById("button_pauseplay").innerHTML = "Play";
   clearInterval(timerInterval);
   if (timeLeft >= 3) {
-    TIME_LIMIT = 1;
-    timePassed = 0;
-    timeLeft = TIME_LIMIT;
+    int_countdown_time_limit = 1;
+    int_countdown_time_passed = 0;
+    timeLeft = int_countdown_time_limit;
     timerInterval = null;
     remainingPathColor = COLOR_CODES.info.color;
     startTimer();
@@ -419,7 +433,7 @@ $('.btn-plus, .btn-minus').on('click', function (e) {
 
 ///// HIER WEITER MACHEN
 if (pomodorotimer == true) {
-  pomodorosession = pomodorosession + 1;
-  document.getElementById("base-session-label").innerHTML = "Session " + pomodorosession;
+  int_pomodoro_session = int_pomodoro_session + 1;
+  document.getElementById("base-session-label").innerHTML = "Session " + int_pomodoro_session;
   console.log("Test")
 }

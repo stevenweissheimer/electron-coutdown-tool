@@ -1,124 +1,137 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Countdown</title>
-        <link href="./public/css/style.css" rel="stylesheet">
-        <script>window.$ = window.jQuery = require("./public/js/jquery-3.4.1.slim.min");</script>
-        <script src="./public/js/jquery-3.4.1.slim.min.js"></script>
-        <link href="./public/css/bootstrap.min.css" rel="stylesheet" />
-        <script src="./public/js/popper.min.js"></script>
-        <script src="./public/js/bootstrap.min.js"></script>
-    </head>
 
-    <body>
-        <div id="myNav" class="overlay">
-            <a href="javascript:void(0)" class="closebtn closemenu" onclick="closeNav()">&times;</a>
-            <div class="overlay-content">
-                <div id="settingsmenu" class="settingsmenu">
-                    <h2>Settings</h2>
-                    <div class="settings">
-						<div class="toogles">
-							<label class="toggle-control">
-								<input onchange="toogle_sound()" id="sound" type="checkbox" checked>
-								<span class="control"></span>
-								<p class="switchtitle">Sounds</p>
-							</label>
-							<label class="toggle-control">
-								<input onchange="toogle_autorestart()" id="autorestart" type="checkbox">
-								<span class="control"></span>
-								<p class="switchtitle">Auto Restart</p>
-							</label>
-							<label class="toggle-control">
-								<input onchange="func_hidetimer()" id="hidetimer" type="checkbox">
-								<span class="control"></span>
-								<p class="switchtitle">Hide Timer</p>
-							</label>
-						</div>
-						<h3>Random Timer</h3>
+<head>
+	<title>Countdown</title>
+	<link href="./public/css/style.css" rel="stylesheet">
+	<script>
+		window.$ = window.jQuery = require("./public/js/jquery-3.4.1.slim.min");
+	</script>
+	<script src="./public/js/jquery-3.4.1.slim.min.js"></script>
+	<link href="./public/css/bootstrap.min.css" rel="stylesheet" />
+	<script src="./public/js/popper.min.js"></script>
+	<script src="./public/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div id="myNav" class="overlay">
+		<a href="javascript:void(0)" class="closebtn closemenu" onclick="closeNav()">&times;</a>
+		<div class="overlay-content">
+			<div id="settingsmenu" class="settingsmenu">
+				<h2>Settings</h2>
+				<div class="settings">
+					<div class="toogles">
 						<label class="toggle-control">
-							<input onchange="func_randomtimer()" id="randomtimer" type="checkbox">
+							<input onchange="toogle_sound()" id="toogle_sound" type="checkbox" checked>
 							<span class="control"></span>
-							<p class="switchtitle">Random Timer</p>
-						</label>						
-						<p>min:</p>
-							<div class="input-group inline-group">
-								<div class="input-group-prepend buttonsminmax">
-									<button onclick ="input_int_countdown_random_min('-')" class="btn btn-outline-secondary btn-minus">
-										<img src="public/images/minus.svg" alt="-"> 
-									</button>
-								</div>
-									<input class="form-control" onchange="input_int_countdown_random_min()" min="5" id="min" name="quantity" placeholder="Seconds" type="number">
-								<div class="input-group-append buttonsminmax">
-									<button onclick ="input_int_countdown_random_min('+')" class="btn btn-outline-secondary btn-plus">
-									<img src="public/images/plus.svg" alt="+"> 
-									</button>
-								</div>
-							</div>
-						<p>max:</p>
-							<div class="input-group inline-group">
-								<div class="input-group-prepend buttonsminmax">
-									<button onclick ="input_int_countdown_random_max('-')" class="btn btn-outline-secondary btn-minus">
-										<img src="public/images/minus.svg" alt="-"> 
-									</button>
-								</div>
-								<input class="form-control" onchange="input_int_countdown_random_max()" min="6" id="max" name="quantity" placeholder="Seconds" type="number">
-								<div class="input-group-append buttonsminmax">
-									<button onclick ="input_int_countdown_random_max('+')" class="btn btn-outline-secondary btn-plus">
-									<img src="public/images/plus.svg" alt="+"> 
-									</button>
-								</div>
-							</div>
-							<h3>Pomodoro Timer</h3>
-							<label class="toggle-control">
-								<input onchange="toogle_pomodoro()" id="toogle-pomodoro" type="checkbox">
-								<span class="control"></span>
-								<p class="switchtitle">Pomodoro Timer</p>
-							</label>
-							<p>Breaks:</p>
-							<div class="input-group inline-group">
-								<div class="input-group-prepend buttonsminmax">
-									<button onclick ="pomodorobreaks_int('-')" class="btn btn-outline-secondary btn-minus">
-										<img src="public/images/minus.svg" alt="-"> 
-									</button>
-								</div>
-									<input class="form-control" onchange="pomodorobreaks_int()" min="1" id="breaks" name="quantity" placeholder="Seconds" type="number">
-								<div class="input-group-append buttonsminmax">
-									<button onclick ="pomodorobreaks_int('+')" class="btn btn-outline-secondary btn-plus">
-									<img src="public/images/plus.svg" alt="+"> 
-									</button>
-								</div>
-							</div>
-                    </div>
-                </div>
-            </div>
-        </div>          
-        <span class="openmenu" onclick="openNav()">&#9776;</span>
-        
-        <audio id="timerAudio" > 
-            <source src="./public/audio/beep.mp3" 
-            type="audio/mpeg"> 
-        </audio> 
-        <div id="app"></div>
-        <h1 id="apptitle">Countdown</h1>
-        <div class="inputs">
-            <div>
-                <div class="input-group inline-group">
-                    <div class="input-group-prepend">
-                    <button onclick ="input_int_countdown('-')" class="btn btn-outline-secondary btn-minus">
-                        <img src="public/images/minus.svg" alt="-"> 
-                    </button>
-                    </div>
-                    <input class="form-control quantity" onchange="input_int_countdown()" min="5" id="newtimer" name="quantity" placeholder="Seconds" type="number">
-                    <div class="input-group-append">
-                    <button onclick ="input_int_countdown('+')" class="btn btn-outline-secondary btn-plus">
-                        <img src="public/images/plus.svg" alt="+"> 
-                    </button>
-                    </div>
-                </div>
-            </div>            
-            <div class="stbuttons"><button class="button" onclick="button_start()">Start</button><button class="button" style="background-color: red;" onclick="button_stop()">Stop</button></div>
-            <div class="changebuttons"><button class="button" id="button_pauseplay" style="background-color:orange;" onclick="toogle()">Pause</button></div>
-        </div>
-    </body>
-    <script src="public/js/script.js"></script>
+							<p class="switchtitle">Sounds</p>
+						</label>
+						<label class="toggle-control">
+							<input onchange="toogle_autorestart()" id="toogle_autorestart" type="checkbox">
+							<span class="control"></span>
+							<p class="switchtitle">Auto Restart</p>
+						</label>
+						<label class="toggle-control">
+							<input onchange="toogle_hidetimer()" id="toogle_hidetimer" type="checkbox">
+							<span class="control"></span>
+							<p class="switchtitle">Hide Timer</p>
+						</label>
+					</div>
+					<h3>Random Timer</h3>
+					<label class="toggle-control">
+						<input onchange="func_randomtimer()" id="randomtimer" type="checkbox">
+						<span class="control"></span>
+						<p class="switchtitle">Random Timer</p>
+					</label>
+					<p>min:</p>
+					<div class="input-group inline-group">
+						<div class="input-group-prepend buttonsminmax">
+							<button onclick="input_int_countdown_random_min('-')"
+								class="btn btn-outline-secondary btn-minus">
+								<img src="public/images/minus.svg" alt="-">
+							</button>
+						</div>
+						<input class="form-control" onchange="input_int_countdown_random_min()" min="5" id="input_int_countdown_random_min"
+							name="quantity" placeholder="Seconds" type="number">
+						<div class="input-group-append buttonsminmax">
+							<button onclick="input_int_countdown_random_min('+')"
+								class="btn btn-outline-secondary btn-plus">
+								<img src="public/images/plus.svg" alt="+">
+							</button>
+						</div>
+					</div>
+					<p>max:</p>
+					<div class="input-group inline-group">
+						<div class="input-group-prepend buttonsminmax">
+							<button onclick="input_int_countdown_random_max('-')"
+								class="btn btn-outline-secondary btn-minus">
+								<img src="public/images/minus.svg" alt="-">
+							</button>
+						</div>
+						<input class="form-control" onchange="input_int_countdown_random_max()" min="6" id="input_int_countdown_random_max"
+							name="quantity" placeholder="Seconds" type="number">
+						<div class="input-group-append buttonsminmax">
+							<button onclick="input_int_countdown_random_max('+')"
+								class="btn btn-outline-secondary btn-plus">
+								<img src="public/images/plus.svg" alt="+">
+							</button>
+						</div>
+					</div>
+					<h3>Pomodoro Timer</h3>
+					<label class="toggle-control">
+						<input onchange="toogle_pomodoro()" id="toogle_pomodoro" type="checkbox">
+						<span class="control"></span>
+						<p class="switchtitle">Pomodoro Timer</p>
+					</label>
+					<p>Breaks:</p>
+					<div class="input-group inline-group">
+						<div class="input-group-prepend buttonsminmax">
+							<button onclick="input_int_pomodoro_breaks('-')" class="btn btn-outline-secondary btn-minus">
+								<img src="public/images/minus.svg" alt="-">
+							</button>
+						</div>
+						<input class="form-control" onchange="input_int_pomodoro_breaks()" min="1" id="input_int_pomodoro_breaks" name="quantity"
+							placeholder="Seconds" type="number">
+						<div class="input-group-append buttonsminmax">
+							<button onclick="input_int_pomodoro_breaks('+')" class="btn btn-outline-secondary btn-plus">
+								<img src="public/images/plus.svg" alt="+">
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<span class="openmenu" onclick="openNav()">&#9776;</span>
+
+	<audio id="timerAudio">
+		<source src="./public/audio/beep.mp3" type="audio/mpeg">
+	</audio>
+	<div id="app"></div>
+	<h1 id="apptitle">Countdown</h1>
+	<div class="inputs">
+		<div>
+			<div class="input-group inline-group">
+				<div class="input-group-prepend">
+					<button onclick="input_int_countdown('-')" class="btn btn-outline-secondary btn-minus">
+						<img src="public/images/minus.svg" alt="-">
+					</button>
+				</div>
+				<input class="form-control quantity" onchange="input_int_countdown()" min="5" id="input_int_countdown"
+					name="quantity" placeholder="Seconds" type="number">
+				<div class="input-group-append">
+					<button onclick="input_int_countdown('+')" class="btn btn-outline-secondary btn-plus">
+						<img src="public/images/plus.svg" alt="+">
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="stbuttons"><button class="button" onclick="button_start()">Start</button><button class="button"
+				style="background-color: red;" onclick="button_stop()">Stop</button></div>
+		<div class="changebuttons"><button class="button" id="button_pauseplay" style="background-color:orange;"
+				onclick="button_pauseplay()">Pause</button></div>
+	</div>
+</body>
+<script src="public/js/script.js"></script>
+
 </html>
