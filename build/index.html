@@ -43,13 +43,13 @@
 						<p>min:</p>
 							<div class="input-group inline-group">
 								<div class="input-group-prepend buttonsminmax">
-									<button onclick ="randomint_min('-')" class="btn btn-outline-secondary btn-minus">
+									<button onclick ="input_int_countdown_random_min('-')" class="btn btn-outline-secondary btn-minus">
 										<img src="public/images/minus.svg" alt="-"> 
 									</button>
 								</div>
-									<input class="form-control" onchange="randomint_min()" min="5" id="min" name="quantity" placeholder="Seconds" type="number">
+									<input class="form-control" onchange="input_int_countdown_random_min()" min="5" id="min" name="quantity" placeholder="Seconds" type="number">
 								<div class="input-group-append buttonsminmax">
-									<button onclick ="randomint_min('+')" class="btn btn-outline-secondary btn-plus">
+									<button onclick ="input_int_countdown_random_min('+')" class="btn btn-outline-secondary btn-plus">
 									<img src="public/images/plus.svg" alt="+"> 
 									</button>
 								</div>
@@ -57,13 +57,13 @@
 						<p>max:</p>
 							<div class="input-group inline-group">
 								<div class="input-group-prepend buttonsminmax">
-									<button onclick ="randomint_max('-')" class="btn btn-outline-secondary btn-minus">
+									<button onclick ="input_int_countdown_random_max('-')" class="btn btn-outline-secondary btn-minus">
 										<img src="public/images/minus.svg" alt="-"> 
 									</button>
 								</div>
-								<input class="form-control" onchange="randomint_max()" min="6" id="max" name="quantity" placeholder="Seconds" type="number">
+								<input class="form-control" onchange="input_int_countdown_random_max()" min="6" id="max" name="quantity" placeholder="Seconds" type="number">
 								<div class="input-group-append buttonsminmax">
-									<button onclick ="randomint_max('+')" class="btn btn-outline-secondary btn-plus">
+									<button onclick ="input_int_countdown_random_max('+')" class="btn btn-outline-secondary btn-plus">
 									<img src="public/images/plus.svg" alt="+"> 
 									</button>
 								</div>
@@ -104,20 +104,20 @@
             <div>
                 <div class="input-group inline-group">
                     <div class="input-group-prepend">
-                    <button onclick ="newtime('-')" class="btn btn-outline-secondary btn-minus">
+                    <button onclick ="input_int_countdown('-')" class="btn btn-outline-secondary btn-minus">
                         <img src="public/images/minus.svg" alt="-"> 
                     </button>
                     </div>
-                    <input class="form-control quantity" onchange="newtime()" min="5" id="newtimer" name="quantity" placeholder="Seconds" type="number">
+                    <input class="form-control quantity" onchange="input_int_countdown()" min="5" id="newtimer" name="quantity" placeholder="Seconds" type="number">
                     <div class="input-group-append">
-                    <button onclick ="newtime('+')" class="btn btn-outline-secondary btn-plus">
+                    <button onclick ="input_int_countdown('+')" class="btn btn-outline-secondary btn-plus">
                         <img src="public/images/plus.svg" alt="+"> 
                     </button>
                     </div>
                 </div>
             </div>            
-            <div class="stbuttons"><button class="button" onclick="starttaste()">Start</button><button class="button" style="background-color: red;" onclick="stoptaste()">Stop</button></div>
-            <div class="changebuttons"><button class="button" id="toogle" style="background-color:orange;" onclick="toogle()">Pause</button></div>
+            <div class="stbuttons"><button class="button" onclick="button_start()">Start</button><button class="button" style="background-color: red;" onclick="button_stop()">Stop</button></div>
+            <div class="changebuttons"><button class="button" id="button_pauseplay" style="background-color:orange;" onclick="toogle()">Pause</button></div>
         </div>
     </body>
     <script src="public/js/script.js"></script>
