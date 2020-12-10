@@ -184,6 +184,10 @@ body {
   margin-bottom: 50px;
 }
 
+.settingsmenu h2 {
+  margin-bottom: 20px;
+}
+
 .settingsmenu p {
   font-size: 24px;
 }
@@ -192,9 +196,6 @@ body {
   text-align: left;
   margin-left: 20px;
 }
-
-
-
 
 .toggle-control {
   display: block;
