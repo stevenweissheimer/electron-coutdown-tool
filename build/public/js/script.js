@@ -100,6 +100,24 @@ function button_pauseplay() {
   }
 }
 
+// Toogles
+
+//Toogle Pomodoro
+function toogle_pomodoro() {
+  pomodorotimer = document.getElementById('toogle-pomodoro').checked;
+  classmanipulation_session_label ();
+}
+
+// Toogle Sound
+function toogle_sound() {
+  sound = document.getElementById('sound').checked;
+}
+
+// Tootle Auto Restart
+function toogle_autorestart() {
+  autorestart = document.getElementById('autorestart').checked;
+}
+
 //! Inputs
 
 // Input Integer Countdown
@@ -139,19 +157,21 @@ function input_int_countdown_random_min(button) {
   console.log(randommin);
 }
 
-//!  Startfunctions
 
+//! DOM Functions
 
-
-
-function func_pomodoro() {
-  pomodorotimer = document.getElementById('toogle-pomodoro').checked;
+// Manipulation Class Session Label // Show / Hide Session Label
+function classmanipulation_session_label () {
   if (pomodorotimer == false) {
     document.getElementById("base-session-label").classList.add('base-session__label__display');
   } else {
     document.getElementById("base-session-label").classList.remove('base-session__label__display');
   }
 }
+
+//!  Startfunctions
+
+
 
 function pomodorobreaks_int(button) {
   if (button == "+") {
@@ -180,10 +200,6 @@ function beep() {
   }
 }
 
-function func_autorestart() {
-  autorestart = document.getElementById('autorestart').checked;
-}
-
 function onTimesUp() {
   clearInterval(timerInterval);
   if (autorestart == true) {
@@ -197,10 +213,6 @@ function onTimesUp() {
     pomodorosession++;
     document.getElementById("base-session-label").innerHTML = "Session " + pomodorosession;
   };
-}
-
-function func_sound() {
-  sound = document.getElementById('sound').checked;
 }
 
 function func_randomtimer() {
