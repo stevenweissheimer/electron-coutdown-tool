@@ -122,3 +122,131 @@ body {
 #apptitle h1 {
   margin-top: 10px;
  }
+
+
+ .overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.98);
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: 1s;
+  z-index: 998;
+  }
+
+.overlay-content {
+  position: relative;
+  top: 0%;
+  width: 100%;
+  text-align: center;
+  margin-top: 2.5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+  color: #f1f1f1;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: -35px;
+  right: 0px;
+  font-size: 60px;
+  z-index: 999;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay a {font-size: 20px}
+  .overlay .closebtn {
+  font-size: 40px;
+  top: 15px;
+  right: 35px;
+  }
+}
+
+.settingsmenu {
+  color: #fff;
+  margin-bottom: 50px;
+}
+
+.settingsmenu p {
+  font-size: 24px;
+}
+
+.settings {
+  text-align: left;
+  margin-left: 20px;
+}
+
+
+
+
+.toggle-control {
+  display: block;
+  position: relative;
+  padding-left: 100px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.toggle-control input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.toggle-control input:checked ~ .control {
+  background-color: rgb(65, 184, 131);;
+}
+.toggle-control input:checked ~ .control:after {
+  left: 55px;
+}
+.toggle-control .control {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  height: 50px;
+  width: 100px;
+  border-radius: 25px;
+  background-color: darkgray;
+  -webkit-transition: background-color 0.15s ease-in;
+  transition: background-color 0.15s ease-in;
+}
+.toggle-control .control:after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+  background: white;
+  -webkit-transition: left 0.15s ease-in;
+  transition: left 0.15s ease-in;
+}
+
+.switchtitle {
+  padding-left: 20px;
+}

@@ -17,6 +17,11 @@ var COLOR_CODES = {
 
 var countdown = 0;
 var beepInterval = 0;
+var sound = true;
+var autorestart = false;
+var randomtimer = false;
+var randommin = 10;
+var randommax = 20;
 let state = "play";
 
 var TIME_LIMIT = countdown;
@@ -53,40 +58,79 @@ document.getElementById("app").innerHTML = `
 `;
 
 function beep() {
-  let i = 0;
-  var audio = document.getElementById('timerAudio'); 
-  audio.play();
-  beepInterval = setInterval(function(){
-    i++;
+    if (sound == true) {
+    let i = 0;
+    var audio = document.getElementById('timerAudio'); 
     audio.play();
-    if (i === 5) {
-      clearInterval(beepInterval);
-    }
-  }, 1000);
+    beepInterval = setInterval(function(){
+      i++;
+      audio.play();
+      if (i === 5) {
+        clearInterval(beepInterval);
+      }
+    }, 1000);
+  }
 }
 
+function func_autorestart() {
+  autorestart = document.getElementById('autorestart').checked; 
+}
 
 function onTimesUp() {
   clearInterval(timerInterval);
   beep();
+  if (autorestart == true) {
+    stop();
+    start();
+  }
+}
+
+function func_sound() {
+  sound = document.getElementById('sound').checked; 
+}
+
+function func_randomtimer() {
+  randinteger();
+  randomtimer = document.getElementById('randomtimer').checked; 
+}
+
+function onTimesUp() {
+  clearInterval(timerInterval);
+  beep();
+  if (autorestart == true) {
+    stop();
+    start();
+  }
 }
 
 function startTimer() {
     if (countdown > 0) {
-        timerInterval = setInterval(() => {
-            timePassed = timePassed += 1;
-            timeLeft = TIME_LIMIT - timePassed;
-            document.getElementById("base-timer-label").innerHTML = formatTime(
-            timeLeft
-            );
-            setCircleDasharray();
-            setRemainingPathColor(timeLeft);
-            if (timeLeft === 0) {
-            onTimesUp();
-            }
-        }, 1000);
+        if (randomtimer == true) {
+          randinteger();
+          starter();
+        } else {
+          starter();
+        }
     }
+  function starter() {
+    timerInterval = setInterval(() => {
+      timePassed = timePassed += 1;
+      timeLeft = TIME_LIMIT - timePassed;
+      document.getElementById("base-timer-label").innerHTML = formatTime(
+      timeLeft
+      );
+      setCircleDasharray();
+      setRemainingPathColor(timeLeft);
+      if (timeLeft === 0) {
+      onTimesUp();
+      }
+  }, 1000);
+  }
  }
+
+ function randinteger () {
+  countdown = Math.floor(Math.random() * (randommax - randommin + 1)) + randommin;
+  }
 
 function formatTime(time) {
   const minutes = Math.floor(time / 60);
@@ -183,6 +227,15 @@ function start() {
     startTimer();
 }
 
+function stoptaste () {
+  autorestart = false;
+  stop ();
+}
+
+function starttaste () {
+  start();
+}
+
 function stop () {
   clearInterval(beepInterval);
     state = "pause"
@@ -215,6 +268,17 @@ function newtime() {
     console.log(countdown);
     start();
 }
+
+function openNav() {
+  document.getElementById("myNav").style.width = "100%";
+  $("#settingsmenu").show();
+}
+
+function closeNav() {
+  document.getElementById("myNav").style.width = "0%";
+  $("#settingsmenu").hide();
+}
+
 
 $('.btn-plus, .btn-minus').on('click', function(e) {
     const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
