@@ -84,7 +84,7 @@ document.getElementById("base-session-label").classList.add('base-session__label
 // Startbutton
 function button_start() {
   console.log ("Input Button Start pressed")
-  start();
+  func_core_startcountdown();
 }
 
 // Stopbutton
@@ -92,8 +92,7 @@ function button_stop() {
   console.log ("Input Button Stop pressed")
   stop();
   if (timeLeft == 0) {
-    intPomodoroSession = 1;
-    document.getElementById("base-session-label").innerHTML = "Session " + intPomodoroSession;
+    core_pomodoro_session_number(1);
   }
 }
 
@@ -205,6 +204,8 @@ function classmanipulation_timer_label () {
 }
 
 //! HTML Manipulations
+
+// HTML Manipulation - Toogle Pause Play Button
 function htmlmanipulation_button_play(htmlmanipulationButtonPlayToogle) {
   if (htmlmanipulationButtonPlayToogle == "pause") {
     document.getElementById("button_pauseplay").innerHTML = "Pause";
@@ -214,17 +215,22 @@ function htmlmanipulation_button_play(htmlmanipulationButtonPlayToogle) {
   console.log("Function htmlmanipulation_button_play aufgerufen")
 }
 
-//! Functions
+// HTML Manipulation - Change Pomodoro Session Number
+function htmlmanipulation_pomodoro_session_number (NewNumber) {
+  document.getElementById("base-session-label").innerHTML = "Session " + NewNumber;
+}
 
-//  Function Start
-function start() {
+//! Core Functions
+
+//  Function Start Countdown
+function func_core_startcountdown() {
   console.log("Function Start ausgeführt");
   //* Vorhandene Beeps löschen mittels Funktion
-  clearbeep();
+  func_core_beep("stop");
   if (intCountdownUserinput > 0) {
     // Verhalten ausführen wenn User Input 0 ist.
     console.log("Startfunction hat geprüft ob intCountdownUserinput > 0 ist")
-    //func_core_button_pressed_pauseplay ("play");
+    func_core_button_pressed_pauseplay ("pause");
     setRestartPathColor();
     clearInterval(timerInterval);
     if (hidetimer == false) {
@@ -280,41 +286,53 @@ function func_core_button_pressed_pauseplay(funcCoreButtonPressedPauseplayToogle
   }
 }
 
-// Sound Beep Function
-function beep() {
-  if (sound == true) {
-    let i = 0;
-    var audio = document.getElementById('timerAudio');
-    audio.play();
-    beepInterval = setInterval(function () {
-      i++;
+// Function Core Sound Beep
+function func_core_beep(funcCoreBeepToogle) {
+  if (funcCoreBeepToogle == "start")
+    if (sound == true) {
+      let i = 0;
+      var audio = document.getElementById('timerAudio');
       audio.play();
-      console.log("beep")
-      if (i >= 5) {
-        clearInterval(beepInterval);
-      }
-    }, 1000);
+      beepInterval = setInterval(function () {
+        i++;
+        audio.play();
+        console.log("beep")
+        if (i >= 5) {
+          clearInterval(beepInterval);
+        }
+      }, 1000);
+    }
+  else if (funcCoreBeepToogle == "clear") {
+    clearInterval(beep);
+    console.log ("Function Clear Beep ausgeführt")
   }
 }
 
-// Function Clear Beep Function
-function clearbeep() {
-  clearInterval(beep);
-  console.log ("Function Clear Beep ausgeführt")
+// Function Core Change Pomodoro Session Number
+function core_pomodoro_session_number (corePomodorSessionNumberMathRule) {
+  if (corePomodorSessionNumberMathRule == "-") {
+    intPomodoroSession--;
+    htmlmanipulation_pomodoro_session_number(intPomodoroSession);
+  } else if (corePomodorSessionNumberMathRule == "+") {
+    intPomodoroSession++;
+    htmlmanipulation_pomodoro_session_number(intPomodoroSession);
+  } else if (corePomodorSessionNumberMathRule.isInteger = true) {
+    intPomodoroSession = corePomodorSessionNumberMathRule;
+    htmlmanipulation_pomodoro_session_number(intPomodoroSession);
+  }
 }
 
 function onTimesUp() {
   clearInterval(timerInterval);
   if (autorestart == true) {
     stop();
-    start();
+    func_core_startcountdown();
   }
   if (hidetimer == false) {
-    beep();
+    func_core_beep("start");
   }
   if (pomodorotimer == true) {
-    intPomodoroSession++;
-    document.getElementById("base-session-label").innerHTML = "Session " + intPomodoroSession;
+    core_pomodoro_session_number("+");
   };
 }
 
@@ -347,7 +365,7 @@ function startTimer() {
       }
       if (timeLeft == 5) {
         if (hidetimer == true) {
-          beep();
+          func_core_beep("start");
         }
       }
 
@@ -409,8 +427,8 @@ function setCircleDasharray() {
 }
 
 function stop() {
+  func_core_button_pressed_pauseplay ("play");
   clearInterval(beepInterval);
-  //func_core_button_pressed_pauseplay ("pause");
   clearInterval(timerInterval);
   if (timeLeft >= 3) {
     intCountdownTimeLimit = 1;
@@ -455,14 +473,3 @@ $('.btn-plus, .btn-minus').on('click', function (e) {
     input[0][isNegative ? 'stepDown' : 'stepUp']()
   }
 })
-
-
-
-
-
-///// HIER WEITER MACHEN
-if (pomodorotimer == true) {
-  intPomodoroSession = intPomodoroSession + 1;
-  document.getElementById("base-session-label").innerHTML = "Session " + intPomodoroSession;
-  console.log("Test")
-}
