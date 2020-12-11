@@ -132,6 +132,28 @@ function func_core_button_pressed_pauseplay(funcCoreButtonPressedPauseplayToogle
   }
 }
 
+test = setInterval(function () {
+  var i = i++;
+  func_core_button_pressed_pauseplay("play");
+  console.log(stringStatePlaypause)
+  func_core_button_pressed_pauseplay("pause");
+  console.log(stringStatePlaypause)
+  if (i >= 100) {
+    clearInterval(test);
+  }
+}, 1000);
+
+test = setInterval(function () {
+  var i = i++;
+  func_core_button_pressed_pauseplay("bla");
+  console.log(stringStatePlaypause)
+  func_core_button_pressed_pauseplay("keks");
+  console.log(stringStatePlaypause)
+  if (i >= 100) {
+    clearInterval(test);
+  }
+}, 1000);
+
 //! Toogles
 
 //Toogle Pomodoro
@@ -235,18 +257,6 @@ function htmlmanipulation_button_play(htmlmanipulationButtonPlayToogle) {
   }
   console.log("Function htmlmanipulation_button_play aufgerufen")
 }
-
-
-test = setInterval(function () {
-  var i = i++;
-  func_core_button_pressed_pauseplay("start");
-  console.log(stringStatePlaypause)
-  func_core_button_pressed_pauseplay("pause");
-  console.log(stringStatePlaypause)
-  if (i >= 100) {
-    clearInterval(test);
-  }
-}, 1000);
 
 //! Functions
 
