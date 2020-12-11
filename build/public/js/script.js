@@ -8,31 +8,31 @@ var COLOR_CODES = {
   },
   warning: {
     color: "orange",
-    threshold: int_countdown_time_threshold_warning
+    threshold: intCountdownTimeThresholdarning
   },
   alert: {
     color: "red",
-    threshold: int_countdown_time_threshold_alert
+    threshold: intCountdownTimeThresholdAlert
   }
 };
 
 // Variablen
 
 //! INIT VARIABLES
-var countdown = 0;
-var int_pomodoro_break_time = 0;
-var int_pomodoro_session = 1;
-var int_countdown_random_min = 5;
-var int_countdown_random_max = 6;
+var intCountdownUserinput = 0;
+var intPomodoroBreakTime = 0;
+var intPomodoroSession = 1;
+var intCountdownRandomMin = 5;
+var intCountdownRandomMax = 6;
 
-var int_countdown_time_passed = 0;
-var int_countdown_time_threshold_warning = 0;
-var int_countdown_time_threshold_alert = 0;
-var int_countdown_time_limit = countdown;
+var intCountdownTimePassed = 0;
+var intCountdownTimeThresholdarning = 0;
+var intCountdownTimeThresholdAlert = 0;
+var intCountdownTimeLimit = intCountdownUserinput;
 
-var state = "play";
+var stringStatePlaypause = "pause";
 
-let timeLeft = int_countdown_time_limit;
+let timeLeft = intCountdownTimeLimit;
 let timerInterval = null;
 let remainingPathColor = COLOR_CODES.info.color;
 
@@ -92,21 +92,43 @@ function button_stop() {
   console.log ("Input Button Stop pressed")
   stop();
   if (timeLeft == 0) {
-    int_pomodoro_session = 1;
-    document.getElementById("base-session-label").innerHTML = "Session " + int_pomodoro_session;
+    intPomodoroSession = 1;
+    document.getElementById("base-session-label").innerHTML = "Session " + intPomodoroSession;
   }
 }
 
 // Button Pause / Play
 function button_pauseplay() {
-  if (state === "play") {
-    console.log ("Input Button Pause pressed")
-    pause();
-    state = "pause";
-  } else if (state === "pause") {
-    console.log ("Input Button Play pressed")
-    play();
-    state = "play";
+  if (stringStatePlaypause == "play") {
+    console.log ("Input Button Pause pressed");
+    func_core_button_pressed_pauseplay ("play");
+    console.log("button_pauseplay hat func_core_button_pressed_pauseplay mit pause aufgerufen");
+  } else if (stringStatePlaypause == "pause") {
+    console.log ("Input Button Play pressed");
+    func_core_button_pressed_pauseplay ("pause");
+    console.log("button_pauseplay hat func_core_button_pressed_pauseplay mit play aufgerufen");
+  }
+}
+
+// Function Action for Play/Pause Button
+function func_core_button_pressed_pauseplay(funcCoreButtonPressedPauseplayToogle) {
+  console.log ("Core Function func_core_button_pressed_pauseplay aufgerufen");
+  if (funcCoreButtonPressedPauseplayToogle = "play") {
+    stringStatePlaypause = "play";
+    console.log ("Core Function func_core_button_pressed_pauseplay changed stringStatePlaypause to play");
+    htmlmanipulation_button_play("pause");
+    console.log("func_core_button_pressed_pauseplay hat htmlmanipulation_button_play mit pause aufgerufen");
+    clearInterval(timerInterval);
+    console.log ("Core Function func_core_button_pressed_pauseplay cleared timerInterval");
+  } else if (funcCoreButtonPressedPauseplayToogle = "pause") {
+    stringStatePlaypause = "pause";
+    console.log ("Core Function func_core_button_pressed_pauseplay changed stringStatePlaypause to pause");
+    htmlmanipulation_button_play("play");
+    console.log("func_core_button_pressed_pauseplay hat htmlmanipulation_button_play mit play aufgerufen");
+    clearInterval(timerInterval);
+    console.log ("Core Function func_core_button_pressed_pauseplay cleared timerInterval");
+    startTimer();
+    console.log ("Core Function func_core_button_pressed_pauseplay used function startTimer");
   }
 }
 
@@ -139,51 +161,50 @@ function toogle_hidetimer() {
 // Input Integer Countdown
 function input_int_countdown(button) {
   if (button == "+") {
-    countdown = parseInt(document.getElementById('input_int_countdown').value) + 1;
+    intCountdownUserinput = parseInt(document.getElementById('input_int_countdown').value) + 1;
   } else if (button == "-") {
-    countdown = parseInt(document.getElementById('input_int_countdown').value) - 1;
+    intCountdownUserinput = parseInt(document.getElementById('input_int_countdown').value) - 1;
   } else {
-    countdown = parseInt(document.getElementById('input_int_countdown').value)
+    intCountdownUserinput = parseInt(document.getElementById('input_int_countdown').value)
   }
-  console.log('Fomularfeld input_int_countdown neuer Countdown mit: ' + countdown);
+  console.log('Fomularfeld input_int_countdown neuer Countdown mit: ' + intCountdownUserinput);
 }
 
 // Input Integer Countdown Random Max
-function input_int_countdown_random_max(button) {
+function input_intCountdownRandomMax(button) {
   if (button == "+") {
-    int_countdown_random_max = parseInt(document.getElementById('input_int_countdown_random_max').value) + 1;
+    intCountdownRandomMax = parseInt(document.getElementById('input_intCountdownRandomMax').value) + 1;
   } else if (button == "-") {
-    int_countdown_random_max = parseInt(document.getElementById('input_int_countdown_random_max').value) - 1;
+    intCountdownRandomMax = parseInt(document.getElementById('input_intCountdownRandomMax').value) - 1;
   } else {
-    int_countdown_random_max = parseInt(document.getElementById('input_int_countdown_random_max').value);
+    intCountdownRandomMax = parseInt(document.getElementById('input_intCountdownRandomMax').value);
   }
-  console.log('Fomularfeld input_int_countdown_random_max neuer Countdown Max mit: ' + int_countdown_random_max);
+  console.log('Fomularfeld input_intCountdownRandomMax neuer Countdown Max mit: ' + intCountdownRandomMax);
 }
 
 // Input Integer Countdown Random Min
-function input_int_countdown_random_min(button) {
+function input_intCountdownRandomMin(button) {
   if (button == "+") {
-    int_countdown_random_min = parseInt(document.getElementById('input_int_countdown_random_min').value) + 1;
+    intCountdownRandomMin = parseInt(document.getElementById('input_intCountdownRandomMin').value) + 1;
   } else if (button == "-") {
-    int_countdown_random_min = parseInt(document.getElementById('input_int_countdown_random_min').value) - 1;
+    intCountdownRandomMin = parseInt(document.getElementById('input_intCountdownRandomMin').value) - 1;
   } else {
-    int_countdown_random_min = parseInt(document.getElementById('input_int_countdown_random_min').value);
+    intCountdownRandomMin = parseInt(document.getElementById('input_intCountdownRandomMin').value);
   }
-  console.log('Fomularfeld input_int_countdown_random_max neuer Countdown Min mit: ' + int_countdown_random_min);
+  console.log('Fomularfeld input_intCountdownRandomMax neuer Countdown Min mit: ' + intCountdownRandomMin);
 }
 
 // Input Integer Pomodoro Breaks
 function input_int_pomodoro_breaktimes(button) {
   if (button == "+") {
-    int_pomodoro_break_time = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value) + 1;
+    intPomodoroBreakTime = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value) + 1;
   } else if (button == "-") {
-    int_pomodoro_break_time = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value) - 1;
+    intPomodoroBreakTime = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value) - 1;
   } else {
-    int_pomodoro_break_time = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value);
+    intPomodoroBreakTime = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value);
   }
-  console.log('Fomularfeld input_int_pomodoro_breaktimes neuer Break mit: ' + int_pomodoro_break_time);
+  console.log('Fomularfeld input_int_pomodoro_breaktimes neuer Break mit: ' + intPomodoroBreakTime);
 }
-
 
 //! DOM Functions
 
@@ -205,8 +226,73 @@ function classmanipulation_timer_label () {
   }
 }
 
-//!  Startfunctions
+//! HTML Manipulations
+function htmlmanipulation_button_play(htmlmanipulationButtonPlayToogle) {
+  if (htmlmanipulationButtonPlayToogle = "pause") {
+    document.getElementById("button_pauseplay").innerHTML = "Pause";
+  } else if (htmlmanipulationButtonPlayToogle = "play") {
+    document.getElementById("button_pauseplay").innerHTML = "Play";
+  }
+  console.log("Function htmlmanipulation_button_play aufgerufen")
+}
 
+
+test = setInterval(function () {
+  var i = i++;
+  func_core_button_pressed_pauseplay("start");
+  console.log(stringStatePlaypause)
+  func_core_button_pressed_pauseplay("pause");
+  console.log(stringStatePlaypause)
+  if (i >= 100) {
+    clearInterval(test);
+  }
+}, 1000);
+
+//! Functions
+
+//  Function Start
+function start() {
+  console.log("Function Start ausgeführt");
+  //* Vorhandene Beeps löschen mittels Funktion
+  clearbeep();
+  if (intCountdownUserinput > 0) {
+    // Verhalten ausführen wenn User Input 0 ist.
+    console.log("Startfunction hat geprüft ob intCountdownUserinput > 0 ist")
+    //func_core_button_pressed_pauseplay ("play");
+    setRestartPathColor();
+    clearInterval(timerInterval);
+    if (hidetimer == false) {
+      intCountdownTimeLimit = intCountdownUserinput;
+    } else {
+      intCountdownTimeLimit = 7;
+    }
+    intCountdownTimeThresholdarning = intCountdownUserinput * 0.5;
+    intCountdownTimeThresholdAlert = intCountdownUserinput * 0.25;
+    COLOR_CODES = {
+      info: {
+        color: "green"
+      },
+      warning: {
+        color: "orange",
+        threshold: intCountdownTimeThresholdarning
+      },
+      alert: {
+        color: "red",
+        threshold: intCountdownTimeThresholdAlert
+      }
+    };
+    intCountdownTimePassed = 0;
+    timeLeft = intCountdownTimeLimit;
+    timerInterval = null;
+    remainingPathColor = COLOR_CODES.info.color;
+    startTimer();
+    if (hidetimer == true) {
+      intCountdownTimePassed = intCountdownTimePassed - intCountdownUserinput + timeLeft;
+    }
+  }
+}
+
+// Sound Beep Function
 function beep() {
   if (sound == true) {
     let i = 0;
@@ -223,6 +309,12 @@ function beep() {
   }
 }
 
+// Function Clear Beep Function
+function clearbeep() {
+  clearInterval(beep);
+  console.log ("Function Clear Beep ausgeführt")
+}
+
 function onTimesUp() {
   clearInterval(timerInterval);
   if (autorestart == true) {
@@ -233,8 +325,8 @@ function onTimesUp() {
     beep();
   }
   if (pomodorotimer == true) {
-    int_pomodoro_session++;
-    document.getElementById("base-session-label").innerHTML = "Session " + int_pomodoro_session;
+    intPomodoroSession++;
+    document.getElementById("base-session-label").innerHTML = "Session " + intPomodoroSession;
   };
 }
 
@@ -244,7 +336,7 @@ function func_randomtimer() {
 }
 
 function startTimer() {
-  if (countdown > 0) {
+  if (intCountdownUserinput > 0) {
     if (randomtimer == true) {
       randinteger();
       starter();
@@ -255,8 +347,8 @@ function startTimer() {
 
   function starter() {
     timerInterval = setInterval(() => {
-      int_countdown_time_passed = int_countdown_time_passed += 1;
-      timeLeft = int_countdown_time_limit - int_countdown_time_passed;
+      intCountdownTimePassed = intCountdownTimePassed += 1;
+      timeLeft = intCountdownTimeLimit - intCountdownTimePassed;
       document.getElementById("base-timer-label").innerHTML = formatTime(
         timeLeft
       );
@@ -276,8 +368,8 @@ function startTimer() {
 }
 
 function randinteger() {
-  countdown = Math.floor(Math.random() * (int_countdown_random_max - int_countdown_random_min + 1)) + int_countdown_random_min;
-  console.log(countdown);
+  intCountdownUserinput = Math.floor(Math.random() * (intCountdownRandomMax - intCountdownRandomMin + 1)) + intCountdownRandomMin;
+  console.log(intCountdownUserinput);
 }
 
 function formatTime(time) {
@@ -315,8 +407,8 @@ function setRemainingPathColor(timeLeft) {
 }
 
 function calculateTimeFraction() {
-  const rawTimeFraction = timeLeft / int_countdown_time_limit;
-  return rawTimeFraction - (1 / int_countdown_time_limit) * (1 - rawTimeFraction);
+  const rawTimeFraction = timeLeft / intCountdownTimeLimit;
+  return rawTimeFraction - (1 / intCountdownTimeLimit) * (1 - rawTimeFraction);
 }
 
 function setCircleDasharray() {
@@ -328,65 +420,14 @@ function setCircleDasharray() {
     .setAttribute("stroke-dasharray", circleDasharray);
 }
 
-function pause() {
-  clearInterval(timerInterval);
-  document.getElementById("button_pauseplay").innerHTML = "Play";
-}
-
-function play() {
-  clearInterval(timerInterval);
-  startTimer();
-  document.getElementById("button_pauseplay").innerHTML = "Pause";
-}
-
-function start() {
-  clearInterval(beep);
-  if (countdown > 0) {
-    clearInterval(beepInterval);
-    state = "play";
-    document.getElementById("button_pauseplay").innerHTML = "Pause";
-    setRestartPathColor();
-    clearInterval(timerInterval);
-    if (hidetimer == false) {
-      int_countdown_time_limit = countdown;
-    } else {
-      int_countdown_time_limit = 7;
-    }
-    int_countdown_time_threshold_warning = countdown * 0.5;
-    int_countdown_time_threshold_alert = countdown * 0.25;
-    COLOR_CODES = {
-      info: {
-        color: "green"
-      },
-      warning: {
-        color: "orange",
-        threshold: int_countdown_time_threshold_warning
-      },
-      alert: {
-        color: "red",
-        threshold: int_countdown_time_threshold_alert
-      }
-    };
-    int_countdown_time_passed = 0;
-    timeLeft = int_countdown_time_limit;
-    timerInterval = null;
-    remainingPathColor = COLOR_CODES.info.color;
-    startTimer();
-    if (hidetimer == true) {
-      int_countdown_time_passed = int_countdown_time_passed - countdown + timeLeft;
-    }
-  }
-}
-
 function stop() {
   clearInterval(beepInterval);
-  state = "pause"
-  document.getElementById("button_pauseplay").innerHTML = "Play";
+  //func_core_button_pressed_pauseplay ("pause");
   clearInterval(timerInterval);
   if (timeLeft >= 3) {
-    int_countdown_time_limit = 1;
-    int_countdown_time_passed = 0;
-    timeLeft = int_countdown_time_limit;
+    intCountdownTimeLimit = 1;
+    intCountdownTimePassed = 0;
+    timeLeft = intCountdownTimeLimit;
     timerInterval = null;
     remainingPathColor = COLOR_CODES.info.color;
     startTimer();
@@ -433,7 +474,7 @@ $('.btn-plus, .btn-minus').on('click', function (e) {
 
 ///// HIER WEITER MACHEN
 if (pomodorotimer == true) {
-  int_pomodoro_session = int_pomodoro_session + 1;
-  document.getElementById("base-session-label").innerHTML = "Session " + int_pomodoro_session;
+  intPomodoroSession = intPomodoroSession + 1;
+  document.getElementById("base-session-label").innerHTML = "Session " + intPomodoroSession;
   console.log("Test")
 }
