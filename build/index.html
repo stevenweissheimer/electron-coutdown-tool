@@ -15,7 +15,7 @@
 
 <body>
 	<div id="myNav" class="overlay">
-		<a href="javascript:void(0)" class="closebtn closemenu" onclick="closeNav()">&times;</a>
+		<a href="javascript:void(0)" class="closebtn closemenu" onclick="htmlmanipulation_settingsMenu('close')">&times;</a>
 		<div class="overlay-content">
 			<div id="settingsmenu" class="settingsmenu">
 				<h2>Settings</h2>
@@ -39,7 +39,7 @@
 					</div>
 					<h3>Random Timer</h3>
 					<label class="toggle-control">
-						<input onchange="func_randomtimer()" id="randomtimer" type="checkbox">
+						<input onchange="toogle_randomtimer()" id="toogle_randomtimer" type="checkbox">
 						<span class="control"></span>
 						<p class="switchtitle">Random Timer</p>
 					</label>
@@ -102,7 +102,7 @@
 			</div>
 		</div>
 	</div>
-	<span class="openmenu" onclick="openNav()">&#9776;</span>
+	<span class="openmenu" onclick="htmlmanipulation_settingsMenu('open')">&#9776;</span>
 
 	<audio id="timerAudio">
 		<source src="./public/audio/beep.mp3" type="audio/mpeg">

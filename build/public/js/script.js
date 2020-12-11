@@ -49,7 +49,7 @@ var pomodorotimer = false;
 
 //! INITS
 
-// Create Timer Ring
+// Init: Create Timer Ring
 document.getElementById("app").innerHTML = `
 <div class="base-timer">
   <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +76,7 @@ document.getElementById("app").innerHTML = `
 `;
 
 
-// Dont show on init Session Label
+// Init: Dont show on init Session Label
 document.getElementById("base-session-label").classList.add('base-session__label__display');
 
 //! Buttons
@@ -84,7 +84,7 @@ document.getElementById("base-session-label").classList.add('base-session__label
 // Startbutton
 function button_start() {
   console.log ("Input Button Start pressed")
-  func_core_startcountdown();
+  func_core_setcountdownsettings();
 }
 
 // Stopbutton
@@ -92,7 +92,7 @@ function button_stop() {
   console.log ("Input Button Stop pressed")
   stop();
   if (timeLeft == 0) {
-    core_pomodoro_session_number(1);
+    func_core_pomodoro_session_number(1);
   }
 }
 
@@ -133,6 +133,12 @@ function toogle_hidetimer() {
   classmanipulation_timer_label ()
 }
 
+// Toogle Randomtimer
+function toogle_randomtimer() {
+  randomtimer = document.getElementById('toogle_randomtimer').checked;
+  func_core_countdown_random();
+}
+
 //! Inputs
 
 // Input Integer Countdown
@@ -148,37 +154,37 @@ function input_int_countdown(button) {
 }
 
 // Input Integer Countdown Random Max
-function input_intCountdownRandomMax(button) {
+function input_int_countdown_random_max(button) {
   if (button == "+") {
-    intCountdownRandomMax = parseInt(document.getElementById('input_intCountdownRandomMax').value) + 1;
+    intCountdownRandomMax = parseInt(document.getElementById('input_int_countdown_random_max').value) + 1;
   } else if (button == "-") {
-    intCountdownRandomMax = parseInt(document.getElementById('input_intCountdownRandomMax').value) - 1;
+    intCountdownRandomMax = parseInt(document.getElementById('input_int_countdown_random_max').value) - 1;
   } else {
-    intCountdownRandomMax = parseInt(document.getElementById('input_intCountdownRandomMax').value);
+    intCountdownRandomMax = parseInt(document.getElementById('input_int_countdown_random_max').value);
   }
-  console.log('Fomularfeld input_intCountdownRandomMax neuer Countdown Max mit: ' + intCountdownRandomMax);
+  console.log('Fomularfeld input_int_countdown_random_max neuer Countdown Max mit: ' + intCountdownRandomMax);
 }
 
 // Input Integer Countdown Random Min
-function input_intCountdownRandomMin(button) {
+function input_int_countdown_random_min(button) {
   if (button == "+") {
-    intCountdownRandomMin = parseInt(document.getElementById('input_intCountdownRandomMin').value) + 1;
+    intCountdownRandomMin = parseInt(document.getElementById('input_int_countdown_random_min').value) + 1;
   } else if (button == "-") {
-    intCountdownRandomMin = parseInt(document.getElementById('input_intCountdownRandomMin').value) - 1;
+    intCountdownRandomMin = parseInt(document.getElementById('input_int_countdown_random_min').value) - 1;
   } else {
-    intCountdownRandomMin = parseInt(document.getElementById('input_intCountdownRandomMin').value);
+    intCountdownRandomMin = parseInt(document.getElementById('input_int_countdown_random_min').value);
   }
-  console.log('Fomularfeld input_intCountdownRandomMax neuer Countdown Min mit: ' + intCountdownRandomMin);
+  console.log('Fomularfeld input_int_countdown_random_max neuer Countdown Min mit: ' + intCountdownRandomMin);
 }
 
 // Input Integer Pomodoro Breaks
-function input_int_pomodoro_breaktimes(button) {
+function input_int_pomodoro_breaks(button) {
   if (button == "+") {
-    intPomodoroBreakTime = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value) + 1;
+    intPomodoroBreakTime = parseInt(document.getElementById('input_int_pomodoro_breaks').value) + 1;
   } else if (button == "-") {
-    intPomodoroBreakTime = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value) - 1;
+    intPomodoroBreakTime = parseInt(document.getElementById('input_int_pomodoro_breaks').value) - 1;
   } else {
-    intPomodoroBreakTime = parseInt(document.getElementById('input_int_pomodoro_breaktimes').value);
+    intPomodoroBreakTime = parseInt(document.getElementById('input_int_pomodoro_breaks').value);
   }
   console.log('Fomularfeld input_int_pomodoro_breaktimes neuer Break mit: ' + intPomodoroBreakTime);
 }
@@ -220,13 +226,24 @@ function htmlmanipulation_pomodoro_session_number (NewNumber) {
   document.getElementById("base-session-label").innerHTML = "Session " + NewNumber;
 }
 
+// HTML Manupulation - Open/Close Menu
+function htmlmanipulation_settingsMenu(toogle) {
+  if (toogle == "open") {
+    document.getElementById("myNav").style.width = "100%";
+    $("#settingsmenu").show();
+  } else if (toogle == "close") {
+    document.getElementById("myNav").style.width = "0%";
+    $("#settingsmenu").hide();
+  }
+}
+
 //! Core Functions
 
 //  Function Start Countdown
-function func_core_startcountdown() {
+function func_core_setcountdownsettings() {
   console.log("Function Start ausgeführt");
   //* Vorhandene Beeps löschen mittels Funktion
-  func_core_beep("stop");
+  func_core_beep("clear");
   if (intCountdownUserinput > 0) {
     // Verhalten ausführen wenn User Input 0 ist.
     console.log("Startfunction hat geprüft ob intCountdownUserinput > 0 ist")
@@ -257,10 +274,44 @@ function func_core_startcountdown() {
     timeLeft = intCountdownTimeLimit;
     timerInterval = null;
     remainingPathColor = COLOR_CODES.info.color;
-    startTimer();
+    func_core_start_countdown();
+  }
+}
+
+// Function Core Start Timer
+function func_core_start_countdown() {
+  if (intCountdownUserinput > 0) {
+    if (randomtimer == true) {
+      func_core_countdown_random();
+      starter();
+    } else {
+      starter();
+    }
     if (hidetimer == true) {
       intCountdownTimePassed = intCountdownTimePassed - intCountdownUserinput + timeLeft;
     }
+  }
+
+  
+  function starter() {
+    timerInterval = setInterval(() => {
+      intCountdownTimePassed = intCountdownTimePassed += 1;
+      timeLeft = intCountdownTimeLimit - intCountdownTimePassed;
+      document.getElementById("base-timer-label").innerHTML = formatTime(
+        timeLeft
+      );
+      setCircleDasharray();
+      setRemainingPathColor(timeLeft);
+      if (timeLeft === 0) {
+        func_core_countdown_onTimesUp();
+      }
+      if (timeLeft == 5) {
+        if (hidetimer == true) {
+          func_core_beep("start");
+        }
+      }
+
+    }, 1000);
   }
 }
 
@@ -281,35 +332,40 @@ function func_core_button_pressed_pauseplay(funcCoreButtonPressedPauseplayToogle
     console.log("func_core_button_pressed_pauseplay hat htmlmanipulation_button_play mit play aufgerufen");
     clearInterval(timerInterval);
     console.log ("Core Function func_core_button_pressed_pauseplay cleared timerInterval");
-    startTimer();
+    func_core_start_countdown();
     console.log ("Core Function func_core_button_pressed_pauseplay used function startTimer");
   }
 }
 
 // Function Core Sound Beep
 function func_core_beep(funcCoreBeepToogle) {
-  if (funcCoreBeepToogle == "start")
+  if (funcCoreBeepToogle == "start") {
     if (sound == true) {
       let i = 0;
       var audio = document.getElementById('timerAudio');
       audio.play();
       beepInterval = setInterval(function () {
         i++;
+        if (autorestart == true) {
+          clearInterval(beepInterval);
+        } else {
+          if (i >= 4) {
+            clearInterval(beepInterval);
+          }
+        }
         audio.play();
         console.log("beep")
-        if (i >= 5) {
-          clearInterval(beepInterval);
-        }
       }, 1000);
     }
+  }
   else if (funcCoreBeepToogle == "clear") {
-    clearInterval(beep);
+    clearInterval(beepInterval);
     console.log ("Function Clear Beep ausgeführt")
   }
 }
 
 // Function Core Change Pomodoro Session Number
-function core_pomodoro_session_number (corePomodorSessionNumberMathRule) {
+function func_core_pomodoro_session_number (corePomodorSessionNumberMathRule) {
   if (corePomodorSessionNumberMathRule == "-") {
     intPomodoroSession--;
     htmlmanipulation_pomodoro_session_number(intPomodoroSession);
@@ -322,61 +378,29 @@ function core_pomodoro_session_number (corePomodorSessionNumberMathRule) {
   }
 }
 
-function onTimesUp() {
-  clearInterval(timerInterval);
-  if (autorestart == true) {
-    stop();
-    func_core_startcountdown();
-  }
-  if (hidetimer == false) {
-    func_core_beep("start");
-  }
-  if (pomodorotimer == true) {
-    core_pomodoro_session_number("+");
-  };
-}
-
-function func_randomtimer() {
-  randinteger();
-  randomtimer = document.getElementById('randomtimer').checked;
-}
-
-function startTimer() {
-  if (intCountdownUserinput > 0) {
-    if (randomtimer == true) {
-      randinteger();
-      starter();
-    } else {
-      starter();
-    }
-  }
-
-  function starter() {
-    timerInterval = setInterval(() => {
-      intCountdownTimePassed = intCountdownTimePassed += 1;
-      timeLeft = intCountdownTimeLimit - intCountdownTimePassed;
-      document.getElementById("base-timer-label").innerHTML = formatTime(
-        timeLeft
-      );
-      setCircleDasharray();
-      setRemainingPathColor(timeLeft);
-      if (timeLeft === 0) {
-        onTimesUp();
-      }
-      if (timeLeft == 5) {
-        if (hidetimer == true) {
-          func_core_beep("start");
-        }
-      }
-
-    }, 1000);
-  }
-}
-
-function randinteger() {
+// Function Core Rand Countdown
+function func_core_countdown_random() {
   intCountdownUserinput = Math.floor(Math.random() * (intCountdownRandomMax - intCountdownRandomMin + 1)) + intCountdownRandomMin;
   console.log(intCountdownUserinput);
 }
+
+// Function Core Countdown TimesUp
+function func_core_countdown_onTimesUp() {
+  clearInterval(timerInterval);
+  if (autorestart == true) {
+    stop();
+    func_core_setcountdownsettings();
+  }
+  if (hidetimer == false) {
+    func_core_beep("clear");
+    func_core_beep("start");
+  }
+  if (pomodorotimer == true) {
+    func_core_pomodoro_session_number("+");
+  };
+}
+
+
 
 function formatTime(time) {
   const minutes = Math.floor(time / 60);
@@ -430,15 +454,16 @@ function stop() {
   func_core_button_pressed_pauseplay ("play");
   clearInterval(beepInterval);
   clearInterval(timerInterval);
-  if (timeLeft >= 3) {
+  if (timeLeft >= 1) {
     intCountdownTimeLimit = 1;
     intCountdownTimePassed = 0;
     timeLeft = intCountdownTimeLimit;
     timerInterval = null;
     remainingPathColor = COLOR_CODES.info.color;
-    startTimer();
+    func_core_start_countdown();
   } else {
     setRestartPathColor();
+    func_core_pomodoro_session_number(1);
   };
 }
 
@@ -454,17 +479,6 @@ function setRestartPathColor() {
     .getElementById("base-timer-path-remaining")
     .classList.add(info.color);
 }
-
-function openNav() {
-  document.getElementById("myNav").style.width = "100%";
-  $("#settingsmenu").show();
-}
-
-function closeNav() {
-  document.getElementById("myNav").style.width = "0%";
-  $("#settingsmenu").hide();
-}
-
 
 $('.btn-plus, .btn-minus').on('click', function (e) {
   const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
