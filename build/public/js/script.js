@@ -110,50 +110,6 @@ function button_pauseplay() {
   }
 }
 
-// Function Action for Play/Pause Button
-function func_core_button_pressed_pauseplay(funcCoreButtonPressedPauseplayToogle) {
-  console.log ("Core Function func_core_button_pressed_pauseplay aufgerufen");
-  if (funcCoreButtonPressedPauseplayToogle = "play") {
-    stringStatePlaypause = "play";
-    console.log ("Core Function func_core_button_pressed_pauseplay changed stringStatePlaypause to play");
-    htmlmanipulation_button_play("pause");
-    console.log("func_core_button_pressed_pauseplay hat htmlmanipulation_button_play mit pause aufgerufen");
-    clearInterval(timerInterval);
-    console.log ("Core Function func_core_button_pressed_pauseplay cleared timerInterval");
-  } else if (funcCoreButtonPressedPauseplayToogle = "pause") {
-    stringStatePlaypause = "pause";
-    console.log ("Core Function func_core_button_pressed_pauseplay changed stringStatePlaypause to pause");
-    htmlmanipulation_button_play("play");
-    console.log("func_core_button_pressed_pauseplay hat htmlmanipulation_button_play mit play aufgerufen");
-    clearInterval(timerInterval);
-    console.log ("Core Function func_core_button_pressed_pauseplay cleared timerInterval");
-    startTimer();
-    console.log ("Core Function func_core_button_pressed_pauseplay used function startTimer");
-  }
-}
-
-test = setInterval(function () {
-  var i = i++;
-  func_core_button_pressed_pauseplay("play");
-  console.log(stringStatePlaypause)
-  func_core_button_pressed_pauseplay("pause");
-  console.log(stringStatePlaypause)
-  if (i >= 100) {
-    clearInterval(test);
-  }
-}, 1000);
-
-test = setInterval(function () {
-  var i = i++;
-  func_core_button_pressed_pauseplay("bla");
-  console.log(stringStatePlaypause)
-  func_core_button_pressed_pauseplay("keks");
-  console.log(stringStatePlaypause)
-  if (i >= 100) {
-    clearInterval(test);
-  }
-}, 1000);
-
 //! Toogles
 
 //Toogle Pomodoro
@@ -250,9 +206,9 @@ function classmanipulation_timer_label () {
 
 //! HTML Manipulations
 function htmlmanipulation_button_play(htmlmanipulationButtonPlayToogle) {
-  if (htmlmanipulationButtonPlayToogle = "pause") {
+  if (htmlmanipulationButtonPlayToogle == "pause") {
     document.getElementById("button_pauseplay").innerHTML = "Pause";
-  } else if (htmlmanipulationButtonPlayToogle = "play") {
+  } else if (htmlmanipulationButtonPlayToogle == "play") {
     document.getElementById("button_pauseplay").innerHTML = "Play";
   }
   console.log("Function htmlmanipulation_button_play aufgerufen")
@@ -299,6 +255,28 @@ function start() {
     if (hidetimer == true) {
       intCountdownTimePassed = intCountdownTimePassed - intCountdownUserinput + timeLeft;
     }
+  }
+}
+
+// Function Action for Play/Pause Button
+function func_core_button_pressed_pauseplay(funcCoreButtonPressedPauseplayToogle) {
+  console.log ("Core Function func_core_button_pressed_pauseplay aufgerufen");
+  if (funcCoreButtonPressedPauseplayToogle == "play") {
+    stringStatePlaypause = "pause";
+    console.log ("Core Function func_core_button_pressed_pauseplay changed stringStatePlaypause to play");
+    htmlmanipulation_button_play("play");
+    console.log("func_core_button_pressed_pauseplay hat htmlmanipulation_button_play mit pause aufgerufen");
+    clearInterval(timerInterval);
+    console.log ("Core Function func_core_button_pressed_pauseplay cleared timerInterval");
+  } else if (funcCoreButtonPressedPauseplayToogle == "pause") {
+    stringStatePlaypause = "play";
+    console.log ("Core Function func_core_button_pressed_pauseplay changed stringStatePlaypause to pause");
+    htmlmanipulation_button_play("pause");
+    console.log("func_core_button_pressed_pauseplay hat htmlmanipulation_button_play mit play aufgerufen");
+    clearInterval(timerInterval);
+    console.log ("Core Function func_core_button_pressed_pauseplay cleared timerInterval");
+    startTimer();
+    console.log ("Core Function func_core_button_pressed_pauseplay used function startTimer");
   }
 }
 
