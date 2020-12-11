@@ -346,7 +346,7 @@ function func_core_beep(funcCoreBeepToogle) {
       audio.play();
       beepInterval = setInterval(function () {
         i++;
-        if (autorestart == true) {
+        if (autorestart == true && hidetimer == false) {
           clearInterval(beepInterval);
         } else {
           if (i >= 4) {
